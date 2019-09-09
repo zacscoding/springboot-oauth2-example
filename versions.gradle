@@ -1,0 +1,5 @@
+dependencyManagement {
+    dependencies {
+        dependency "commons-io:commons-io:2.6"
+    }
+}

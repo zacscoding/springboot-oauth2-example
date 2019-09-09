@@ -1,0 +1,28 @@
+## Servers
+server:
+  port: 18989
+
+## Spring
+spring:
+  datasource:
+    username: sa
+    password:
+    url: jdbc:h2:file:./db/db-server/data;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    hikari:
+      jdbc-url: jdbc:h2:file:./db/data;DB_CLOSE_ON_EXIT=FALSE
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+
+## Application
+app:
+  admin-username: admin@email.com
+  admin-password: admin
+  user-username: user@gmail.com
+  user-password: user
+  client-id: application
+  client-secret: pass

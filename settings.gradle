@@ -1,0 +1,3 @@
+rootProject.name = 'springboot-oauth2-example'
+include 'oauth-server'
+
