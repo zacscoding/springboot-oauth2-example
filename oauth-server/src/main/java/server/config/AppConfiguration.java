@@ -12,7 +12,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import lombok.extern.slf4j.Slf4j;
-import server.account.entity.Account;
+import server.account.entity.AccountEntity;
 import server.account.entity.AccountRole;
 import server.account.repository.AccountRepository;
 import server.config.properties.AppProperties;
@@ -46,28 +46,31 @@ public class AppConfiguration {
             @Override
             public void run(ApplicationArguments args) throws Exception {
                 if (!accountRepository.findByEmail(appProperties.getAdminUsername()).isPresent()) {
-                    logger.info("Try to create a admin");
-                    Account admin = Account.builder()
-                                           .email(appProperties.getAdminUsername())
-                                           .password(passwordEncoder.encode(appProperties.getAdminPassword()))
-                                           .roles(new HashSet<>(Arrays.asList(
-                                                   AccountRole.ADMIN, AccountRole.USER)))
-                                           .build();
-                    accountRepository.save(admin);
+                    AccountEntity admin = AccountEntity.builder()
+                                                       .email(appProperties.getAdminUsername())
+                                                       .password(passwordEncoder.encode(appProperties
+                                                                                                .getAdminPassword()))
+                                                       .roles(new HashSet<>(Arrays.asList(
+                                                               AccountRole.ADMIN, AccountRole.USER)))
+                                                       .build();
+                    admin = accountRepository.save(admin);
+                    logger.info("Created a admin:{}", admin);
                 } else {
-                    logger.info("Skip to save admin account because already exist.");
+                    logger.info("Skip to save a admin because already exist.");
                 }
 
                 if (!accountRepository.findByEmail(appProperties.getUserUsername()).isPresent()) {
-                    logger.info("Try to create a user.");
-                    Account admin = Account.builder()
-                                           .email(appProperties.getUserUsername())
-                                           .password(passwordEncoder.encode(appProperties.getUserPassword()))
-                                           .roles(new HashSet<>(Arrays.asList(AccountRole.USER)))
-                                           .build();
-                    accountRepository.save(admin);
+                    AccountEntity user = AccountEntity.builder()
+                                                      .email(appProperties.getUserUsername())
+                                                      .password(passwordEncoder.encode(
+                                                              appProperties.getUserPassword()))
+                                                      .roles(new HashSet<>(Arrays.asList(AccountRole.USER)))
+                                                      .build();
+
+                    user = accountRepository.save(user);
+                    logger.info("Created a user:{}", user);
                 } else {
-                    logger.info("Skip to save user because already exist.");
+                    logger.info("Skip to save a user because already exist.");
                 }
             }
         };

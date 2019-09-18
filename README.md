@@ -1,5 +1,4 @@
-# Oauth2 example with spring boot  
-
+# Oauth2 server & client with spring boot  
 
 > Source structure  
 

@@ -1,5 +1,6 @@
 package server.account.entity;
 
+import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -17,6 +18,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * Account entity
@@ -30,11 +32,12 @@ import lombok.Setter;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Account {
+@ToString
+public class AccountEntity implements Serializable {
 
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long id;
 
     @Column(unique = true)
     private String email;

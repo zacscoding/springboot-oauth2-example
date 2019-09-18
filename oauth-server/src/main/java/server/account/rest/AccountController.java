@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import server.account.repository.AccountRepository;
+import server.account.annotation.CurrentUser;
+import server.account.entity.AccountEntity;
 
 /**
  *
@@ -18,15 +19,17 @@ import server.account.repository.AccountRepository;
 @RequiredArgsConstructor
 public class AccountController {
 
-    private final AccountRepository accountRepository;
-
-    @GetMapping("/accounts")
-    public ResponseEntity getAllAccounts() {
-        try {
-            return ResponseEntity.ok(accountRepository.findAll());
-        } catch (Exception e) {
-            logger.warn("Exception occur while getting accounts.");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+    /**
+     * Returns {@link AccountEntity} given auth status or UNAUTHORIZED status if no auth.
+     */
+    @GetMapping("/accounts/me")
+    public ResponseEntity getAccount(@CurrentUser AccountEntity account) {
+        if (account == null) {
+            logger.info("/accounts/me is called with anonymous");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+
+        logger.info("/accounts/me is called with {}", account.getEmail());
+        return ResponseEntity.ok(account);
     }
 }

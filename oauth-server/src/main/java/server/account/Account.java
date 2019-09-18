@@ -1,4 +1,4 @@
-package server.account.dto;
+package server.account;
 
 import java.util.Collection;
 import java.util.Set;
@@ -8,18 +8,18 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-import server.account.entity.Account;
+import server.account.entity.AccountEntity;
 import server.account.entity.AccountRole;
 
 /**
  *
  * @GitHub : https://github.com/zacscoding
  */
-public class AccountAdapter extends User {
+public class Account extends User {
 
-    private Account account;
+    private AccountEntity account;
 
-    public AccountAdapter(Account account) {
+    public Account(AccountEntity account) {
         super(account.getEmail(), account.getPassword(), authorities(account.getRoles()));
         this.account = account;
     }
@@ -30,7 +30,7 @@ public class AccountAdapter extends User {
                     .collect(Collectors.toSet());
     }
 
-    public Account getAccount() {
+    public AccountEntity getAccount() {
         return account;
     }
 }

@@ -6,6 +6,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import server.account.Account;
+import server.account.annotation.CurrentUser;
 import server.config.properties.AppProperties;
 
 /**
@@ -21,16 +23,14 @@ public class OAuthServerApplication {
         SpringApplication.run(OAuthServerApplication.class, args);
     }
 
-    /**
-     * mock resource api
-     */
-    @GetMapping("/api/resources")
-    public String getResource() {
-        return "MOCK-RESOURCE\n";
-    }
-
-    @GetMapping("/noauth/resources")
-    public String getResourceWithAuth() {
-        return "MOCK-NOAUTH-RESOURCE\n";
+    @GetMapping("/api/hello")
+    public String getResource(@CurrentUser Account account) {
+        StringBuilder result = new StringBuilder("Hello ");
+        if (account == null) {
+            result.append("anonymous");
+        } else {
+            result.append(account.getUsername());
+        }
+        return result.append(" !!").toString();
     }
 }

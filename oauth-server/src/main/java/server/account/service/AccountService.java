@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import server.account.dto.AccountAdapter;
-import server.account.entity.Account;
+import server.account.Account;
+import server.account.entity.AccountEntity;
 import server.account.repository.AccountRepository;
 
 /**
@@ -26,9 +26,9 @@ public class AccountService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Account account = accountRepository.findByEmail(username)
-                                           .orElseThrow(() -> new UsernameNotFoundException(username));
+        AccountEntity account = accountRepository.findByEmail(username)
+                                                 .orElseThrow(() -> new UsernameNotFoundException(username));
 
-        return new AccountAdapter(account);
+        return new Account(account);
     }
 }

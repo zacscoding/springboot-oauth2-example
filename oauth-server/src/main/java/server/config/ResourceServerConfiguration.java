@@ -17,16 +17,16 @@ import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHand
 public class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
-        resources.resourceId("resources");
+        resources.resourceId("examples");
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.
-                    anonymous()
+        http.headers().frameOptions().disable();
+        http.anonymous()
             .and()
             .authorizeRequests()
-            .mvcMatchers(HttpMethod.GET, "/noauth/**")
+            .mvcMatchers(HttpMethod.GET, "/api/hello")
             .permitAll()
             .anyRequest()
             .authenticated()

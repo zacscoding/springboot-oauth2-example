@@ -4,13 +4,13 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import server.account.entity.Account;
+import server.account.entity.AccountEntity;
 
 /**
  *
  * @GitHub : https://github.com/zacscoding
  */
-public interface AccountRepository extends JpaRepository<Account, Long> {
+public interface AccountRepository extends JpaRepository<AccountEntity, Long> {
 
-    Optional<Account> findByEmail(String email);
+    Optional<AccountEntity> findByEmail(String email);
 }
