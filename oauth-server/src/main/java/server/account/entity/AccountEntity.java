@@ -1,6 +1,7 @@
 package server.account.entity;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -44,7 +45,9 @@ public class AccountEntity implements Serializable {
 
     private String password;
 
+    private int age;
+
     @ElementCollection(fetch = FetchType.EAGER)
     @Enumerated(EnumType.STRING)
-    private Set<AccountRole> roles;
+    private Set<AccountRole> roles = new HashSet<>();
 }

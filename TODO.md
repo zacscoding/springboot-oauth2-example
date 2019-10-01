@@ -2,8 +2,9 @@
 
 ## oauth2 server
 - [x] configuration of security
-- [ ] impl jdbc token store
-- [ ] impl action rest api with authority
+- [x] impl jdbc token store
+- [ ] integration tests for resource server
+- [ ] readme
 
 ## oauth2 client
 

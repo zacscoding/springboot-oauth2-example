@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import server.account.annotation.CurrentUser;
 import server.account.entity.AccountEntity;
+import server.account.service.AccountService;
 
 /**
  *
@@ -19,8 +20,10 @@ import server.account.entity.AccountEntity;
 @RequiredArgsConstructor
 public class AccountController {
 
+    private final AccountService accountService;
+
     /**
-     * Returns {@link AccountEntity} given auth status or UNAUTHORIZED status if no auth.
+     * Returns {@link AccountEntity} given authorized user or UNAUTHORIZED status if no auth.
      */
     @GetMapping("/accounts/me")
     public ResponseEntity getAccount(@CurrentUser AccountEntity account) {
@@ -29,7 +32,12 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
 
-        logger.info("/accounts/me is called with {}", account.getEmail());
-        return ResponseEntity.ok(account);
+        try {
+            logger.info("/accounts/me is called with {}", account.getEmail());
+            return ResponseEntity.ok(accountService.serializeAccount(account));
+        } catch (Exception e) {
+            logger.warn("Exception occur while serializing account", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
     }
 }

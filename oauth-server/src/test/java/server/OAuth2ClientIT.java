@@ -1,10 +1,10 @@
-package server.account;
+package server;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.httpBasic;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.Test;
@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
+ * Oauth2 client IT given account resource server
  *
  * @GitHub : https://github.com/zacscoding
  */
@@ -29,7 +30,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-public class AccountControllerTest {
+public class OAuth2ClientIT {
 
     @Autowired
     protected MockMvc mockMvc;
@@ -38,7 +39,7 @@ public class AccountControllerTest {
     protected ObjectMapper objectMapper;
 
     @Test
-    public void testGettingAccessToken() throws Exception {
+    public void runOauthClient() throws Exception {
         /**
          * 1) /accounts/me with anonymous user
          */
@@ -68,11 +69,15 @@ public class AccountControllerTest {
         /**
          * 3) request with auth token
          */
-        perform = mockMvc.perform(get("/accounts/me")
-                                          .header(HttpHeaders.AUTHORIZATION, bearerToken))
-                         .andDo(print());
-        response = perform.andReturn().getResponse().getContentAsString();
-        String currentUserEmail = new Jackson2JsonParser().parseMap(response).get("email").toString();
-        assertThat(currentUserEmail).isEqualTo(username);
+        mockMvc.perform(get("/accounts/me")
+                                .header(HttpHeaders.AUTHORIZATION, bearerToken))
+               .andDo(print())
+               .andExpect(jsonPath("id").exists())
+               .andExpect(jsonPath("email").value(username))
+               .andExpect(jsonPath("age").exists());
+
+        /**
+         * 4) refresh token
+         */
     }
 }

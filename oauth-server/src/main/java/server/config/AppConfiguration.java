@@ -52,6 +52,7 @@ public class AppConfiguration {
                                                                                                 .getAdminPassword()))
                                                        .roles(new HashSet<>(Arrays.asList(
                                                                AccountRole.ADMIN, AccountRole.USER)))
+                                                       .age(25)
                                                        .build();
                     admin = accountRepository.save(admin);
                     logger.info("Created a admin:{}", admin);
@@ -65,6 +66,7 @@ public class AppConfiguration {
                                                       .password(passwordEncoder.encode(
                                                               appProperties.getUserPassword()))
                                                       .roles(new HashSet<>(Arrays.asList(AccountRole.USER)))
+                                                      .age(20)
                                                       .build();
 
                     user = accountRepository.save(user);
