@@ -3,6 +3,7 @@ package server.config;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -15,12 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import server.account.entity.AccountEntity;
 import server.account.entity.AccountRole;
 import server.account.repository.AccountRepository;
-import server.config.properties.AppProperties;
+import server.config.properties.ApplicationProperties;
 
-/**
- *
- * @GitHub : https://github.com/zacscoding
- */
 @Slf4j
 @Configuration
 public class AppConfiguration {
@@ -31,6 +28,13 @@ public class AppConfiguration {
     }
 
     @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
+
+    // Insert dummy accounts
+    // -
+    @Bean
     public ApplicationRunner applicationRunner() {
         return new ApplicationRunner() {
 
@@ -38,7 +42,7 @@ public class AppConfiguration {
             private AccountRepository accountRepository;
 
             @Autowired
-            private AppProperties appProperties;
+            private ApplicationProperties appProperties;
 
             @Autowired
             private PasswordEncoder passwordEncoder;

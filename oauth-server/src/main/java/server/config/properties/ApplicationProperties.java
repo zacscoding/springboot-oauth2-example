@@ -1,18 +1,16 @@
 package server.config.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.stereotype.Component;
 
 import lombok.Getter;
 import lombok.Setter;
 
-/**
- *
- * @GitHub : https://github.com/zacscoding
- */
-@ConfigurationProperties(prefix = "app")
 @Getter
 @Setter
-public class AppProperties {
+//@Component
+@ConfigurationProperties(prefix = "app")
+public class ApplicationProperties {
 
     private String adminUsername;
     private String adminPassword;
@@ -22,4 +20,13 @@ public class AppProperties {
 
     private String clientId;
     private String clientSecret;
+
+    private SwaggerProperties swagger;
+
+    @Getter
+    @Setter
+    public static class SwaggerProperties {
+
+        private String accessTokenUri;
+    }
 }

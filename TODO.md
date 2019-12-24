@@ -3,8 +3,12 @@
 ## oauth2 server
 - [x] configuration of security
 - [x] impl jdbc token store
-- [ ] integration tests for resource server
-- [ ] readme
+- [x] integration tests for resource server
+- [x] swagger with auth
+- [x] readme
+- [ ] cache jdbc token store
+
+---  
 
 ## oauth2 client
 

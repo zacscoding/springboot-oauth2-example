@@ -1,27 +1,29 @@
 ## Servers
 server:
-  port: 18989
+  port: 3000
 
 ## Spring
 spring:
   datasource:
-    #username: sa
-    #password:
-    #url: jdbc:h2:file:./db/db-server/data;DB_CLOSE_ON_EXIT=FALSE
-    #driver-class-name: org.h2.Driver
-    #hikari:
-    #  jdbc-url: jdbc:h2:file:./db/data;DB_CLOSE_ON_EXIT=FALSE
-    url: jdbc:mysql://localhost:3306/testdb?useSSL=false&useUnicode=true&characterEncoding=utf8&seLegacyDatetimeCode=false
-    username: root
-    password: maria
-    driver-class-name: org.mariadb.jdbc.Driver
+    username: sa
+    password:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    hikari:
+      jdbc-url: jdbc:h2:mem:testdb
+    platform: oauth2-h2
+    #    url: jdbc:mariadb://192.168.79.130:3306/testdb?useSSL=false&useUnicode=true&characterEncoding=utf8&seLegacyDatetimeCode=false
+    #    username: tester
+    #    password: tester
+    #    driver-class-name: org.mariadb.jdbc.Driver
+    #    platform: oauth2-maria
     initialization-mode: always
-    platform: oauth2
   jpa:
+    open-in-view: false
     properties:
       hibernate:
-        #dialect: org.hibernate.dialect.H2Dialect
-        dialect: org.hibernate.dialect.MariaDBDialect
+        dialect: org.hibernate.dialect.H2Dialect
+        #dialect: org.hibernate.dialect.MariaDBDialect
     hibernate:
       ddl-auto: create-drop
 
@@ -33,3 +35,5 @@ app:
   user-password: user
   client-id: application
   client-secret: pass
+  swagger:
+    accessTokenUri: http://localhost:3000/oauth/token

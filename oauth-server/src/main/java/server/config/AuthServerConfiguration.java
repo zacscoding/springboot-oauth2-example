@@ -2,7 +2,6 @@ package server.config;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,26 +16,19 @@ import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
+import lombok.RequiredArgsConstructor;
 import server.account.service.AccountService;
 
-/**
- *
- * @GitHub : https://github.com/zacscoding
- */
+@RequiredArgsConstructor
 @Configuration
 @EnableAuthorizationServer
 public class AuthServerConfiguration extends AuthorizationServerConfigurerAdapter {
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private AccountService accountService;
-
-    @Autowired
-    private DataSource dataSource;
+    // required
+    private final PasswordEncoder passwordEncoder;
+    private final AuthenticationManager authenticationManager;
+    private final AccountService accountService;
+    private final DataSource dataSource;
 
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
